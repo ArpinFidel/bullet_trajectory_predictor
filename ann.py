@@ -7,7 +7,7 @@ from tensorflow import keras
 from keras import Sequential
 from keras.models import model_from_json
 from keras.layers import Dense
-from math import cos, sin
+from math import cos, sin, radians
 
 model = None
 scaler = None
@@ -108,19 +108,24 @@ if __name__ == '__main__':
                 menu = int(input('>> '))
             except:
                 continue
-            if 1<=menu<=2: break
+            if 1<=menu<=3: break
         
         if menu == 3: break
         if menu == 1:
             train_model()
         if menu == 2:
-            pos_x = input('position (x): ')
-            pos_y = input('position (y): ')
-            direction = input('direction (left right) [0 359]: ')
-            angle = input('angle (up down) [-90 90]: ')
-            velocity = input('bullet velocity [30 1400]: ')
-            wind_a = input('wind angle [0 359]: ')
-            wind_s = input('wind speed [0 114]: ')
+            while True:
+                try:
+                    pos_x = float(input('position (x): '))
+                    pos_y = float(input('position (y): '))
+                    direction = float(input('direction (left right) [0 359]: '))
+                    angle = float(input('angle (up down) [-90 90]: '))
+                    velocity = float(input('bullet velocity [30 1400]: '))
+                    wind_a = float(input('wind angle [0 359]: '))
+                    wind_s = float(input('wind speed [0 114]: '))
+                    break
+                except:
+                    continue
 
             prediction = predict(angle, velocity, wind_a, wind_s)
 
@@ -128,7 +133,9 @@ if __name__ == '__main__':
 
             p[0], p[1] = (p[0]-scaler.min_[4])/scaler.scale_[4], (p[1]-scaler.min_[5])/scaler.scale_[5]
 
+            print('range\t\t: %.2f\ndrift (milrad)\t: %.2f'%(p[0], p[1]))
+
             D = p[0]
-            Q = direction + p[1]
+            Q = radians(direction) + p[1]/1000
 
             print('%.2f %.2f'%(pos_x+D*cos(Q), pos_y+D*sin(Q)))
