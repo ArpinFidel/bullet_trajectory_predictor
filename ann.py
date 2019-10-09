@@ -138,4 +138,6 @@ if __name__ == '__main__':
             D = p[0]
             Q = radians(direction) + p[1]/1000
 
-            print('%.2f %.2f'%(pos_x+D*cos(Q), pos_y+D*sin(Q)))
+            print('end coordinates\t: %.2f %.2f'%(pos_x+D*cos(Q), pos_y+D*sin(Q)))
+            input('enter to continue...')
+            print('\n'*5)
