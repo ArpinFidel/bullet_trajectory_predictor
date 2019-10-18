@@ -1,6 +1,7 @@
 import requests
 from random import randint
 import csv
+from config import *
 
 def call_api(angle, velocity, w_angle, w_speed):
     req = requests.post("https://wrapapi.com/use/Arpin/bullet_trajectory_hornady/calculator/0.0.2", json={
@@ -8,7 +9,7 @@ def call_api(angle, velocity, w_angle, w_speed):
         "velocity": velocity,
         "wind_angle": w_angle,
         "wind_speed": w_speed,
-        "wrapAPIKey": "8FxZmSRC4b1YKYPNPdmn2MHypkJm4AXs"
+        "wrapAPIKey": wrap_api_key
     })
     print(angle, velocity, w_angle, w_speed)
     for r in req.json()['data']['output2']: print(r)
